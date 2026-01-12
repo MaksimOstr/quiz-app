@@ -1,10 +1,12 @@
 // create-quiz.dto.ts
-import { IsString, IsEnum, IsBoolean, ValidateNested, IsOptional, IsArray } from 'class-validator';
+import {IsString, IsEnum, IsBoolean, ValidateNested, IsOptional, IsArray, IsNotEmpty} from 'class-validator';
 import { Type } from 'class-transformer';
-import {QuestionType} from "../../../generated/prisma/enums";
+import {QuestionType} from "../../generated/prisma/enums";
+
 
 class CreateOptionDto {
   @IsString()
+  @IsNotEmpty()
   text: string;
 
   @IsBoolean()
@@ -13,6 +15,7 @@ class CreateOptionDto {
 
 class CreateQuestionDto {
   @IsString()
+  @IsNotEmpty()
   text: string;
 
   @IsEnum(QuestionType)
@@ -26,6 +29,7 @@ class CreateQuestionDto {
 
 export class CreateQuizDto {
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsString()
