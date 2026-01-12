@@ -6,6 +6,7 @@ import styles from './create.module.css';
 import { CreateQuizDto, QuestionType } from "@/lib/types/quiz";
 import { createQuiz } from "@/lib/api/api";
 import OptionsEditor from "@/app/create/options-editor";
+import {isAxiosError} from "axios";
 
 const DEFAULT_OPTIONS = {
     [QuestionType.SHORT_ANSWER]: [{ text: '', isCorrect: true }],
@@ -39,7 +40,13 @@ export default function CreateQuizPage() {
             await createQuiz(data);
             router.push('/quizzes');
         } catch (e) {
-            alert('Failed to create quiz. Ensure rules are met.');
+            if (isAxiosError(e) && e.response) {
+                const errorMessage = e.response.data.message;
+                alert(errorMessage);
+            } else if (e instanceof Error) {
+
+                alert(e.message);
+            }
         }
     };
 
