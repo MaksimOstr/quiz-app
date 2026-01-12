@@ -16,5 +16,17 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
+  backend:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://admin:masterkey@postgres:5432/quizzes-db
+
+
 volumes:
   pg_data:

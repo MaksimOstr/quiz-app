@@ -1,5 +1,13 @@
-// create-quiz.dto.ts
-import {IsString, IsEnum, IsBoolean, ValidateNested, IsOptional, IsArray, IsNotEmpty} from 'class-validator';
+import {
+  IsString,
+  IsEnum,
+  IsBoolean,
+  ValidateNested,
+  IsOptional,
+  IsArray,
+  IsNotEmpty,
+  ArrayNotEmpty
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import {QuestionType} from "../../generated/prisma/enums";
 
@@ -37,6 +45,7 @@ export class CreateQuizDto {
   description?: string;
 
   @IsArray()
+  @ArrayNotEmpty({ message: "You can't create quiz without any question" })
   @ValidateNested({ each: true })
   @Type(() => CreateQuestionDto)
   questions: CreateQuestionDto[];
